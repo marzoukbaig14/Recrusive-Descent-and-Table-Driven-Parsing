@@ -20,8 +20,8 @@ void expr() {
 		}
 
 		State s = newState(input);
-		printf("\n in Main");
-		printf(s->idx);
+		// printf("\n in Main");
+		// printf(s->idx);
 		Node tree = E_function(s);
 
 		int valid = 0;

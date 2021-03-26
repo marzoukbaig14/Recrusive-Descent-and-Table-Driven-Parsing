@@ -10,8 +10,8 @@ State newState(String S) {
     State this = (State) malloc(sizeof(struct State));
     this->expression = S;
     this -> idx = 0;
-    printf("\n in newState");
-    printf(this->idx);
+    
+
     return this;
 }
 
@@ -57,6 +57,8 @@ Node X_function(State s) {
     // printf("\n");
     // printf(s->expression);
     // printf(s->expression[s->idx]);
+    printf("\n idx in X-func %d", s->idx);
+    printf("\n idx in newState %c", s->expression[s->idx]);
     if (s->expression[s->idx] == 'a' || s->expression[s->idx] == 'b' ||
     s->expression[s->idx] == 'c' || s->expression[s->idx] == 'd' ||
     s->expression[s->idx] == 'e' || s->expression[s->idx] == 'f' ||
@@ -85,6 +87,9 @@ Node X_function(State s) {
 }
 
 Node operators(State s) {
+
+    printf("\n expression");
+    printf("%c", s->expression[s->idx]);
 
     if (s->expression[s->idx] == '.' || s->expression[s->idx] == '*' ||
     s->expression[s->idx] == '|') {
@@ -137,8 +142,8 @@ Node E_function(State S) {
     Node node = newNode(E);
     node->leftNode = leftChild;
     node->rightNode = rightChild;
-    printf("in E_function\n");
-    printf(S->idx);
+    // printf("in E_function\n");
+    // printf(S->idx);
     return node;
 }
 
@@ -209,8 +214,7 @@ Node A_function(State s) {
     }
 
     int saveidx = s->idx;
-    printf("\n idx in A");
-    printf(s->idx);
+    printf("\n idx in A %i", s->idx);
 
     Node node1 = X_function(s);
     if (node1 != NULL) {
