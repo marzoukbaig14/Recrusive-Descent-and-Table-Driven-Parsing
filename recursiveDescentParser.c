@@ -57,8 +57,8 @@ Node X_function(State s) {
     // printf("\n");
     // printf(s->expression);
     // printf(s->expression[s->idx]);
-    printf("\n idx in X-func %d", s->idx);
-    printf("\n idx in newState %c", s->expression[s->idx]);
+    printf("\n index in X-func: %d \n", s->idx);
+    printf("\n expression in X: %c \n", s->expression[s->idx]);
     if (s->expression[s->idx] == 'a' || s->expression[s->idx] == 'b' ||
     s->expression[s->idx] == 'c' || s->expression[s->idx] == 'd' ||
     s->expression[s->idx] == 'e' || s->expression[s->idx] == 'f' ||
@@ -88,8 +88,8 @@ Node X_function(State s) {
 
 Node operators(State s) {
 
-    printf("\n expression");
-    printf("%c", s->expression[s->idx]);
+    printf("\n index in O-func: %d \n", s->idx);
+    printf("\n expression in O: %c \n", s->expression[s->idx]);
 
     if (s->expression[s->idx] == '.' || s->expression[s->idx] == '*' ||
     s->expression[s->idx] == '|') {
@@ -108,6 +108,8 @@ Node ET_function(State s) {
     
     // printf("\n in ET function");
     // printf(s->expression);
+    printf("\n index in ET-func: %d \n", s->idx);
+    printf("\n expression in ET: %c \n", s->expression[s->idx]);
 
     int ind = s->idx;
 
@@ -129,6 +131,9 @@ Node ET_function(State s) {
 
 Node E_function(State S) {
 
+    printf("\n index in E-func: %d \n", S->idx);
+    printf("\n expression in E: %c \n", S->expression[S->idx]);
+
     Node leftChild = C_function(S);
     if (leftChild == NULL) {
         return NULL;
@@ -147,17 +152,40 @@ Node E_function(State S) {
     return node;
 }
 
+Node CT_function(State s) {
+
+    printf("\n index in CT-func: %d \n", s->idx);
+    printf("\n expression in CT: %c \n", s->expression[s->idx]);
+
+    int ind = s->idx;
+
+    if (s-> expression[s->idx] == '.') {
+        Node node = newNode(CT);
+        node->leftNode = operators(s);
+        node->rightNode = C_function(s);
+
+        if (node->rightNode != NULL) {
+            return node;
+        }
+     
+    }
+    s-> idx = ind;
+    Node node = newNode(CT);
+    node->centreNode = epsilon_function();
+    return node;
+}
+
 Node C_function(State s) {
 
-    // printf("\n in C function");
-    // printf(s->expression);
+    printf("\n index in C-func: %d \n", s->idx);
+    printf("\n expression in C: %c \n", s->expression[s->idx]);
 
     Node leftChild = S_function(s);
     if (leftChild == NULL) {
         return NULL;
     }
 
-    Node rightChild = ST_function(s);
+    Node rightChild = CT_function(s);
     if (rightChild == NULL) {
         return NULL;
     }
@@ -168,7 +196,35 @@ Node C_function(State s) {
     return node;
 }
 
+Node ST_function(State s) {
+
+    printf("\n index in ST-func: %d \n", s->idx);
+    printf("\n expression in ST: %c \n", s->expression[s->idx]);
+
+    int ind = s->idx;
+
+    if (s-> expression[s->idx] == '*') {
+        Node node = newNode(ST);
+        node->leftNode = operators(s);
+        node->rightNode = ST_function(s);
+
+        if (node->rightNode != NULL) {
+            return node;
+        }
+     
+    }
+    s-> idx = ind;
+    Node node = newNode(ST);
+    node->centreNode = epsilon_function();
+    return node;
+}
+
+
+
 Node S_function(State s) {
+
+    printf("\n index in S-func: %d \n", s->idx);
+    printf("\n expression in S: %c \n", s->expression[s->idx]);
     
     Node leftChild = A_function(s);
     if (leftChild == NULL) {
@@ -188,6 +244,9 @@ Node S_function(State s) {
 }
 
 Node A_function(State s) {
+
+    printf("\n index in X-func: %d \n", s->idx);
+    printf("\n expression in newState: %c \n", s->expression[s->idx]);
 
     if (s->expression[s->idx] == '(') {
 
@@ -214,7 +273,6 @@ Node A_function(State s) {
     }
 
     int saveidx = s->idx;
-    printf("\n idx in A %i", s->idx);
 
     Node node1 = X_function(s);
     if (node1 != NULL) {
@@ -229,49 +287,11 @@ Node A_function(State s) {
 
 }
 
-Node ST_function(State s) {
 
-    int ind = s->idx;
-
-    if (s-> expression[s->idx] == '*') {
-        Node node = newNode(ST);
-        node->leftNode = operators(s);
-        node->rightNode = ST_function(s);
-
-        if (node->rightNode != NULL) {
-            return node;
-        }
-     
-    }
-    s-> idx = ind;
-    Node node = newNode(ST);
-    node->centreNode = epsilon_function();
-    return node;
-}
-
-Node CT_function(State s) {
-
-    int ind = s->idx;
-
-    if (s-> expression[s->idx] == '.') {
-        Node node = newNode(CT);
-        node->leftNode = operators(s);
-        node->rightNode = C_function(s);
-
-        if (node->rightNode != NULL) {
-            return node;
-        }
-     
-    }
-    s-> idx = ind;
-    Node node = newNode(CT);
-    node->centreNode = epsilon_function();
-    return node;
-}
 
 void indent(int num_Tabs) {
 	for (int i=0; i<num_Tabs; i++) {
-		printf("\t");
+		printf("  ");
 	}
 }
 
