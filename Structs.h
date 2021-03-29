@@ -29,5 +29,13 @@ struct State {
     int idx;
 };
 
+struct Table {
+
+    int ** table_driver;
+    char* input_symbols;
+    char** category_symbols;
+    char** productions;
+}
+
 
 #endif /* STRUCTS_H_ */

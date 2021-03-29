@@ -11,7 +11,7 @@ void expr() {
 
 		printf("\n----------------------------------\n");
 
-		printf("Enter a mathematical expression to be evaluated or quit to exit\n");
+		printf("Enter a regular expression or quit to exit\n");
 		char input[128];
 		fgets(input,100,stdin);
 		input[strlen(input) - 1] = '\0';

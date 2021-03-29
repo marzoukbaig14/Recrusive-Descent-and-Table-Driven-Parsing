@@ -5,7 +5,7 @@
 
 extern Node newNode(Type t);
 
-extern State newState(String s);
+extern State newState(String S);
 
 extern Node E_function(State S);
 
